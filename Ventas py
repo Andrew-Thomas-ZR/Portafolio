@@ -1,0 +1,48 @@
+# Programa en Python para gestionar ventas mensuales en una matriz
+
+def crear_matriz():
+    return [[0 for _ in range(3)] for _ in range(12)]
+
+def insertar_venta(matriz, mes, departamento, venta):
+    matriz[mes][departamento] = venta
+
+def buscar_venta(matriz, venta):
+    for mes in range(12):
+        for depto in range(3):
+            if matriz[mes][depto] == venta:
+                return f"Venta encontrada en mes {mes + 1}, departamento {depto}"
+    return "Venta no encontrada"
+
+def eliminar_venta(matriz, mes, departamento):
+    matriz[mes][departamento] = 0
+
+if __name__ == "__main__":
+    meses = {"Enero": 0, "Febrero": 1, "Diciembre": 11}
+    departamentos = {"Ropa": 0, "Deportes": 1, "Jugueteria": 2}
+
+    matriz_ventas = crear_matriz()
+    
+    while True:
+        print("\nMenú de opciones:")
+        print("1. Insertar venta")
+        print("2. Buscar venta")
+        print("3. Eliminar venta")
+        print("4. Salir")
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            mes = int(input("Ingrese el número de mes (1-12): ")) - 1
+            depto = int(input("Ingrese el número de departamento (0: Ropa, 1: Deportes, 2: Jugueteria): "))
+            venta = int(input("Ingrese la cantidad de la venta: "))
+            insertar_venta(matriz_ventas, mes, depto, venta)
+        elif opcion == "2":
+            venta = int(input("Ingrese la cantidad de la venta a buscar: "))
+            print(buscar_venta(matriz_ventas, venta))
+        elif opcion == "3":
+            mes = int(input("Ingrese el número de mes (1-12): ")) - 1
+            depto = int(input("Ingrese el número de departamento (0: Ropa, 1: Deportes, 2: Jugueteria): "))
+            eliminar_venta(matriz_ventas, mes, depto)
+        elif opcion == "4":
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")

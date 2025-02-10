@@ -1,0 +1,72 @@
+// Programa en Java para gestionar ventas mensuales en una matriz
+
+import java.util.Scanner;
+
+public class Ventas {
+    private int[][] matriz;
+    private static final int MESES = 12;
+    private static final int DEPARTAMENTOS = 3;
+
+    public Ventas() {
+        matriz = new int[MESES][DEPARTAMENTOS];
+    }
+
+    public void insertarVenta(int mes, int departamento, int venta) {
+        matriz[mes][departamento] = venta;
+    }
+
+    public String buscarVenta(int venta) {
+        for (int mes = 0; mes < MESES; mes++) {
+            for (int depto = 0; depto < DEPARTAMENTOS; depto++) {
+                if (matriz[mes][depto] == venta) {
+                    return "Venta encontrada en mes " + (mes + 1) + ", departamento " + depto;
+                }
+            }
+        }
+        return "Venta no encontrada";
+    }
+
+    public void eliminarVenta(int mes, int departamento) {
+        matriz[mes][departamento] = 0;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Ventas ventas = new Ventas();
+        
+        while (true) {
+            System.out.println("\nMenú de opciones:");
+            System.out.println("1. Insertar venta");
+            System.out.println("2. Buscar venta");
+            System.out.println("3. Eliminar venta");
+            System.out.println("4. Salir");
+            System.out.print("Seleccione una opción: ");
+            int opcion = scanner.nextInt();
+            
+            if (opcion == 1) {
+                System.out.print("Ingrese el número de mes (1-12): ");
+                int mes = scanner.nextInt() - 1;
+                System.out.print("Ingrese el número de departamento (0: Ropa, 1: Deportes, 2: Jugueteria): ");
+                int depto = scanner.nextInt();
+                System.out.print("Ingrese la cantidad de la venta: ");
+                int venta = scanner.nextInt();
+                ventas.insertarVenta(mes, depto, venta);
+            } else if (opcion == 2) {
+                System.out.print("Ingrese la cantidad de la venta a buscar: ");
+                int venta = scanner.nextInt();
+                System.out.println(ventas.buscarVenta(venta));
+            } else if (opcion == 3) {
+                System.out.print("Ingrese el número de mes (1-12): ");
+                int mes = scanner.nextInt() - 1;
+                System.out.print("Ingrese el número de departamento (0: Ropa, 1: Deportes, 2: Jugueteria): ");
+                int depto = scanner.nextInt();
+                ventas.eliminarVenta(mes, depto);
+            } else if (opcion == 4) {
+                break;
+            } else {
+                System.out.println("Opción no válida. Intente de nuevo.");
+            }
+        }
+        scanner.close();
+    }
+}
