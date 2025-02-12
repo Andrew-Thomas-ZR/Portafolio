@@ -1,0 +1,68 @@
+import random
+import time
+
+def generate_matrix(num_students, num_subjects):
+    return [[random.randint(0, 100) for _ in range(num_subjects)] for _ in range(num_students)]
+
+def display_matrix(matrix, num_students, num_subjects, flip=False):
+    if flip:
+        print("Matriz de calificaciones (Materias en filas, Alumnos en columnas):")
+        print("   ", end="")
+        for i in range(num_students):
+            print(f"Alumno {i+1:<10}", end=" ")
+        print()
+        
+        for j in range(num_subjects):
+            print(f"Materia {j+1:<10}", " ".join(f"{matrix[i][j]:<10}" for i in range(num_students)))
+    else:
+        print("Matriz de calificaciones (Alumnos en filas, Materias en columnas):")
+        print("   ", " ".join([f"Materia {i+1:<10}" for i in range(num_subjects)]))
+        for i, row in enumerate(matrix):
+            print(f"Alumno {i+1:<10}", " ".join(f"{score:<10}" for score in row))
+
+def search(matrix, row_index, col_index, flip=False):
+    if flip:
+        if 0 <= col_index < len(matrix) and 0 <= row_index < len(matrix[0]):
+            return matrix[col_index][row_index]
+    else:
+        if 0 <= row_index < len(matrix) and 0 <= col_index < len(matrix[0]):
+            return matrix[row_index][col_index]
+    return None
+
+try:
+    num_students = int(input("Ingrese la cantidad de alumnos a generar: "))
+    num_subjects = int(input("Ingrese la cantidad de materias a generar: "))
+    
+    matrix = generate_matrix(num_students, num_subjects)
+
+    flip_view = input("¿Desea ver la matriz con materias en filas y alumnos en columnas? (s/n): ").strip().lower() == 's'
+    display_matrix(matrix, num_students, num_subjects, flip_view)
+
+    print("\nOpciones de búsqueda:")
+    print("1. Buscar por alumno y materia")
+    option = int(input("Seleccione una opción (1): "))
+    
+    if option == 1:
+        if flip_view:
+            subject_index = int(input(f"Ingrese el número de la materia (1-{num_subjects}): ")) - 1
+            student_index = int(input(f"Ingrese el número del alumno (1-{num_students}): ")) - 1
+        else:
+            student_index = int(input(f"Ingrese el número del alumno (1-{num_students}): ")) - 1
+            subject_index = int(input(f"Ingrese el número de la materia (1-{num_subjects}): ")) - 1
+        
+        start_time = time.time()
+        result = search(matrix, student_index, subject_index, flip_view)
+        
+        if result is not None:
+            print(f"Calificación del alumno {student_index + 1} en la materia {subject_index + 1}: {result}")
+        else:
+            print("Índices fuera de rango. Intente nuevamente.")
+        
+        end_time = time.time()
+        print(f"Tiempo de búsqueda: {end_time - start_time:.6f} segundos")
+    
+    else:
+        print("Opción inválida. Intente nuevamente.")
+    
+except ValueError:
+    print("Entrada inválida. Asegúrese de ingresar números válidos.")
