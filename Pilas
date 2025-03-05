@@ -1,0 +1,39 @@
+class Pila:
+    def __init__(self):
+        self.items = []
+    
+    def push(self, item):
+        """Agrega un elemento a la pila."""
+        self.items.append(item)
+    
+    def pop(self):
+        """Elimina y devuelve el último elemento de la pila. Retorna None si la pila está vacía."""
+        if not self.esta_vacia():
+            return self.items.pop()
+        return None
+    
+    def peek(self):
+        """Devuelve el último elemento de la pila sin eliminarlo. Retorna None si la pila está vacía."""
+        if not self.esta_vacia():
+            return self.items[-1]
+        return None
+    
+    def esta_vacia(self):
+        """Verifica si la pila está vacía."""
+        return len(self.items) == 0
+    
+    def tamano(self):
+        """Devuelve el número de elementos en la pila."""
+        return len(self.items)
+
+if __name__ == "__main__":
+    pila = Pila()
+    pila.push(5)
+    pila.push(10)
+    pila.push(15)
+    
+    print("Elemento superior:", pila.peek()) 
+    print("Tamaño de la pila:", pila.tamano())  
+    
+    print("Desapilando:", pila.pop())  
+    print("Tamaño de la pila después de desapilar:", pila.tamano())  
