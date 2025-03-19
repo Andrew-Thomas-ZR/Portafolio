@@ -1,0 +1,47 @@
+class Order:
+    def __init__(self, qtty, customer):
+        self.qtty = qtty
+        self.customer = customer
+        self.next = None
+
+    def print_order(self):
+        print(f"     Customer: {self.customer}")
+        print(f"     Quantity: {self.qtty}")
+        print("     ------------")
+
+class OrderQueue:
+    def __init__(self):
+        self.front = None
+        self.rear = None
+
+    def add_order(self, order):
+        if not self.rear:
+            self.front = self.rear = order
+        else:
+            self.rear.next = order
+            self.rear = order
+        print(f"Pedido recibido de {order.customer} por {order.qtty} unidades.")
+
+    def process_next_order(self):
+        if not self.front:
+            print("No hay pedidos para procesar.")
+            return
+        order = self.front
+        self.front = self.front.next
+        if not self.front:
+            self.rear = None
+        print("Procesando pedido:")
+        order.print_order()
+
+    def has_orders(self):
+        return self.front is not None
+
+if __name__ == "__main__":
+    order_queue = OrderQueue()
+    
+    order_queue.add_order(Order(10, "Cliente A"))
+    order_queue.add_order(Order(5, "Cliente B"))
+    order_queue.add_order(Order(20, "Cliente C"))
+
+    while order_queue.has_orders():
+        order_queue.process_next_order()
