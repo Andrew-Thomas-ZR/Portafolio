@@ -1,0 +1,101 @@
+class Postre:
+    def __init__(self, nombre):
+        self.nombre = nombre
+        self.ingredientes = []
+    
+    def agregar_ingrediente(self, ingrediente):
+        if ingrediente not in self.ingredientes:
+            self.ingredientes.append(ingrediente)
+    
+    def eliminar_ingrediente(self, ingrediente):
+        if ingrediente in self.ingredientes:
+            self.ingredientes.remove(ingrediente)
+    
+    def listar_ingredientes(self):
+        return self.ingredientes
+
+class ListaPostres:
+    def __init__(self):
+        self.postres = {}
+    
+    def agregar_postre(self, nombre):
+        if nombre not in self.postres:
+            self.postres[nombre] = Postre(nombre)
+    
+    def eliminar_postre(self, nombre):
+        if nombre in self.postres:
+            del self.postres[nombre]
+    
+    def agregar_ingrediente_a_postre(self, nombre, ingrediente):
+        if nombre in self.postres:
+            self.postres[nombre].agregar_ingrediente(ingrediente)
+    
+    def eliminar_ingrediente_de_postre(self, nombre, ingrediente):
+        if nombre in self.postres:
+            self.postres[nombre].eliminar_ingrediente(ingrediente)
+    
+    def listar_ingredientes_de_postre(self, nombre):
+        if nombre in self.postres:
+            return self.postres[nombre].listar_ingredientes()
+        return None
+    
+    def eliminar_duplicados(self):
+        nombres_unicos = list(set(self.postres.keys()))
+        nombres_unicos.sort()
+        self.postres = {nombre: self.postres[nombre] for nombre in nombres_unicos}
+    
+    def mostrar_postres(self):
+        if not self.postres:
+            print("No hay postres registrados.")
+        else:
+            for nombre, postre in self.postres.items():
+                print(f"{nombre}: {', '.join(postre.listar_ingredientes())}")
+    
+
+def menu():
+    lista_postres = ListaPostres()
+    while True:
+        print("\nMenú de Postres")
+        print("1. Agregar un postre")
+        print("2. Agregar ingrediente a un postre")
+        print("3. Eliminar ingrediente de un postre")
+        print("4. Eliminar un postre")
+        print("5. Listar ingredientes de un postre")
+        print("6. Mostrar todos los postres")
+        print("7. Eliminar duplicados")
+        print("8. Salir")
+        opcion = input("Seleccione una opción: ")
+        
+        if opcion == "1":
+            nombre = input("Ingrese el nombre del postre: ")
+            lista_postres.agregar_postre(nombre)
+        elif opcion == "2":
+            nombre = input("Ingrese el nombre del postre: ")
+            ingrediente = input("Ingrese el ingrediente: ")
+            lista_postres.agregar_ingrediente_a_postre(nombre, ingrediente)
+        elif opcion == "3":
+            nombre = input("Ingrese el nombre del postre: ")
+            ingrediente = input("Ingrese el ingrediente a eliminar: ")
+            lista_postres.eliminar_ingrediente_de_postre(nombre, ingrediente)
+        elif opcion == "4":
+            nombre = input("Ingrese el nombre del postre a eliminar: ")
+            lista_postres.eliminar_postre(nombre)
+        elif opcion == "5":
+            nombre = input("Ingrese el nombre del postre: ")
+            ingredientes = lista_postres.listar_ingredientes_de_postre(nombre)
+            if ingredientes is not None:
+                print(f"Ingredientes de {nombre}: {', '.join(ingredientes)}")
+            else:
+                print("El postre no existe.")
+        elif opcion == "6":
+            lista_postres.mostrar_postres()
+        elif opcion == "7":
+            lista_postres.eliminar_duplicados()
+            print("Duplicados eliminados.")
+        elif opcion == "8":
+            print("Saliendo del programa...")
+            break
+        else:
+            print("Opción no válida, intente de nuevo.")
+
+menu()
